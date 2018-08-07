@@ -1,29 +1,25 @@
-var mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/Users');
+var express = require('express');
+var bodyParser = require('body-parser');
 
-var user = mongoose.model('user',{
-text:{
-    type: String
-},
-completed:{
-type : Boolean
-},
-completedAt: {
-    type: Number
-}
+var {mongoose} = require('./db/Mongoose');
+var {user} = require('./models/User');
+var app= express();
+app.use(bodyParser.json());
+app.post('/users',(req,res)=>{
+  
+       let use = new user({
+       name: req.body.text
+       });
 
+       use.save().then((doc)=>{
+      res.send(doc);
+       },(e)=>{
+       res.status(400).send(e);
+       });
+    });
+
+   
+
+app.listen(3000,()=>{
+    console.log("started");
 });
-
-var newUser = new user({
-text : 'Cook dinner',
-completed : true,
-completedAt : 123
-
-});
-
-newUser.save().then((res)=>{
-console.log('Saved',res);
-},(err)=>{
-
-})
