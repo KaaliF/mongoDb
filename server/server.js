@@ -20,13 +20,21 @@ app.post('/users',(req,res)=>{
 
    app.get('/users',(req,res)=>{
    user.find().then((docs)=>{
-   res.send(docs);
+   res.send({docs});
+   
    },(e)=>{
 res.status(400).send(e);
    });
 
    });
-
+app.get('/users/:id',(req,res)=>{
+ var id = req.params.id;
+ user.findById(id).then((usr)=>{
+res.send(usr);
+ },(e)=>{
+res.status(400).send(e);
+ })
+});
 app.listen(3000,()=>{
     console.log("started");
 });
