@@ -35,6 +35,15 @@ res.send(usr);
 res.status(400).send(e);
  })
 });
+
+app.delete('/users/:id',(req,res)=>{
+    var id =req.params.id;
+    user.findByIdAndRemove(id).then((usr)=>{
+        res.send(usr);
+    },(e)=>{
+        res.status(400).send(e);
+    })
+})
 app.listen(3000,()=>{
     console.log("started");
 });
