@@ -18,7 +18,14 @@ app.post('/users',(req,res)=>{
        });
     });
 
-   
+   app.get('/users',(req,res)=>{
+   user.find().then((docs)=>{
+   res.send(docs);
+   },(e)=>{
+res.status(400).send(e);
+   });
+
+   });
 
 app.listen(3000,()=>{
     console.log("started");
